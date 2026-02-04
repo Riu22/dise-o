@@ -1,90 +1,72 @@
-import React, { useState, useEffect } from 'react';
-import BackgroundVideo from './components/BackgroundVideo';
+import React, { useState } from 'react';
 import SoundMixer from './components/SoundMixer';
 import Visualizer from './components/Visualizer';
-import EnvironmentNav from './components/EnvironmentNav';
 import './App.css';
 
-const ECOSYSTEMS = {
-  forest: {
+const ECOSYSTEMS = [
+  {
     id: 'forest',
     name: 'Tropical Forest',
     video: '/assets/video/forest.mp4',
-    poster: '/assets/img/forest-poster.jpg',
     sounds: ['birds', 'wind', 'river'],
-    theme: '#2d5a27'
+    icon: '🌳'
   },
-  ocean: {
+  {
     id: 'ocean',
     name: 'Deeper Ocean',
     video: '/assets/video/ocean.mp4',
-    poster: '/assets/img/ocean-poster.jpg',
     sounds: ['waves', 'whales', 'bubbles'],
-    theme: '#1a4a6e'
+    icon: '🌊'
   },
-  rain: {
+  {
     id: 'rain',
     name: 'Urban Rain',
     video: '/assets/video/rain.mp4',
-    poster: '/assets/img/rain-poster.jpg',
     sounds: ['heavy_rain', 'thunder', 'city_hum'],
-    theme: '#3d3d3d'
+    icon: '☔'
   }
-};
+];
 
 function App() {
-  const [currentEnv, setCurrentEnv] = useState('forest');
+  const [activeId, setActiveId] = useState(null);
   const [globalVolume, setGlobalVolume] = useState(0.5);
-  const [isStarted, setIsStarted] = useState(false);
-
-  const activeEnv = ECOSYSTEMS[currentEnv];
-
-  const startExperience = () => {
-    setIsStarted(true);
-  };
 
   return (
-    <div className="app-container">
+    <div className="accordion-wrapper">
+      {ECOSYSTEMS.map((env) => (
+        <div 
+          key={env.id}
+          className={`env-section ${activeId === env.id ? 'active' : ''}`}
+          onClick={() => setActiveId(env.id)}
+        >
+          <video autoPlay loop muted playsInline className="section-video">
+            <source src={env.video} type="video/mp4" />
+          </video>
 
-      {!isStarted && (
-        <div className="start-overlay">
-          <img src="/assets/img/logo.svg" alt="Logo" className="logo-start" />
-          <button className="btn-start" onClick={startExperience}>
-            EXPLORAR ECOSISTEMA
-          </button>
+          <div className="section-content">
+            {!activeId || activeId !== env.id ? (
+              <div className="section-closed">
+                <span className="big-icon">{env.icon}</span>
+                <h2>{env.name}</h2>
+              </div>
+            ) : (
+              <div className="section-open">
+                <header>
+                  <h1>{env.name}</h1>
+                </header>
+                
+                <div className="minimal-mixer">
+                  <Visualizer isPlaying={true} volume={globalVolume} />
+                  <SoundMixer 
+                    tracks={env.sounds} 
+                    onVolumeChange={setGlobalVolume} 
+                  />
+                </div>
+              </div>
+            )}
+          </div>
         </div>
-      )}
-
-      <BackgroundVideo 
-        src={activeEnv.video} 
-        poster={activeEnv.poster} 
-      />
-
-
-      {isStarted && (
-        <>
-          <header className="main-header">
-            <img src="/assets/img/logo.svg" className="logo" alt="SoundScape" />
-            <h1 className="env-title">{activeEnv.name}</h1>
-          </header>
-
-          <main className="main-content">
-            <div className="glass-panel">
-              <Visualizer isPlaying={isStarted} volume={globalVolume} />
-              
-              <SoundMixer 
-                tracks={activeEnv.sounds} 
-                onVolumeChange={(v) => setGlobalVolume(v)} 
-              />
-            </div>
-          </main>
-
-          <EnvironmentNav 
-            currentEnv={currentEnv} 
-            onEnvChange={(id) => setCurrentEnv(id)} 
-          />
-        </>
-      )}
+      ))}
     </div>
   );
 }

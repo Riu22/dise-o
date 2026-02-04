@@ -1,12 +1,6 @@
 import React from 'react';
 
-const environments = [
-  { id: 'forest', name: 'Tropical Forest', img: '/assets/img/forest-thumb.jpg', icon: '🌳' },
-  { id: 'ocean', name: 'Deeper Ocean', img: '/assets/img/ocean-thumb.jpg', icon: '🌊' },
-  { id: 'rain', name: 'Urban Rain', img: '/assets/img/rain-thumb.jpg', icon: '☔' }
-];
-
-const EnvironmentNav = ({ currentEnv, onEnvChange }) => {
+const EnvironmentNav = ({ environments, currentEnv, onEnvChange }) => {
   return (
     <nav className="env-nav">
       {environments.map((env) => (

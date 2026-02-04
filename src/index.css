@@ -1,68 +1,153 @@
-:root {
-  font-family: system-ui, Avenir, Helvetica, Arial, sans-serif;
-  line-height: 1.5;
-  font-weight: 400;
-
-  color-scheme: light dark;
-  color: rgba(255, 255, 255, 0.87);
-  background-color: #242424;
-
-  font-synthesis: none;
-  text-rendering: optimizeLegibility;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-}
-
-a {
-  font-weight: 500;
-  color: #646cff;
-  text-decoration: inherit;
-}
-a:hover {
-  color: #535bf2;
-}
-
-body {
+/* 1. RESET I BASES */
+* {
   margin: 0;
-  display: flex;
-  place-items: center;
-  min-width: 320px;
-  min-height: 100vh;
+  padding: 0;
+  box-sizing: border-box;
 }
 
-h1 {
-  font-size: 3.2em;
-  line-height: 1.1;
+body, html, #root {
+  width: 100%;
+  height: 100%;
+  overflow: hidden; 
+  font-family: 'Inter', sans-serif;
+  background-color: #000;
 }
 
-button {
-  border-radius: 8px;
-  border: 1px solid transparent;
-  padding: 0.6em 1.2em;
-  font-size: 1em;
-  font-weight: 500;
-  font-family: inherit;
-  background-color: #1a1a1a;
+/* 2. CONTENIDOR DE L'ACORDIÓ */
+.accordion-wrapper {
+  display: flex; /* Posa les seccions en fila */
+  width: 100vw;
+  height: 100vh;
+  transition: all 0.5s ease;
+}
+
+/* 3. CADA SECCIÓ D'ECOSISTEMA */
+.env-section {
+  position: relative;
+  flex: 1; /* Totes les seccions ocupen el mateix espai per defecte */
+  height: 100%;
+  overflow: hidden;
   cursor: pointer;
-  transition: border-color 0.25s;
-}
-button:hover {
-  border-color: #646cff;
-}
-button:focus,
-button:focus-visible {
-  outline: 4px auto -webkit-focus-ring-color;
+  transition: flex 0.8s cubic-bezier(0.25, 1, 0.5, 1); /* Transició suau d'expansió */
+  border-right: 1px solid rgba(255, 255, 255, 0.1);
 }
 
-@media (prefers-color-scheme: light) {
-  :root {
-    color: #213547;
-    background-color: #ffffff;
-  }
-  a:hover {
-    color: #747bff;
-  }
-  button {
-    background-color: #f9f9f9;
-  }
+/* SECCIÓ SELECCIONADA: S'expandeix i les altres s'estrenyen */
+.env-section.active {
+  flex: 6; /* Ocupa la major part de la pantalla */
+  cursor: default;
+}
+
+/* 4. VÍDEO DE CADA SECCIÓ */
+.section-video {
+  position: absolute;
+  top: 0;
+  left: 50%;
+  transform: translateX(-50%);
+  height: 100%;
+  width: auto;
+  min-width: 100%;
+  object-fit: cover;
+  filter: brightness(0.4) grayscale(0.3);
+  transition: filter 0.6s ease;
+}
+
+.env-section.active .section-video {
+  filter: brightness(0.6) grayscale(0); /* S'il·lumina quan s'activa */
+}
+
+/* 5. CONTINGUT QUAN ESTÀ TANCAT (Minimalista) */
+.section-closed {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  z-index: 5;
+  color: white;
+  transition: opacity 0.3s ease;
+}
+
+.big-icon {
+  font-size: 3rem;
+  margin-bottom: 1rem;
+  text-shadow: 0 0 20px rgba(0,0,0,0.5);
+}
+
+.section-closed h2 {
+  font-size: 1rem;
+  text-transform: uppercase;
+  letter-spacing: 3px;
+  writing-mode: vertical-lr; /* El text surt vertical quan està tancat */
+  transform: rotate(180deg);
+}
+
+/* 6. CONTINGUT QUAN ESTÀ OBERT (Mixer i Visualizer) */
+.section-open {
+  position: relative;
+  z-index: 10;
+  height: 100%;
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  color: white;
+  padding: 2rem;
+  opacity: 0;
+  animation: fadeInContent 0.8s forwards;
+  animation-delay: 0.4s; /* Espera que s'expandeixi una mica */
+}
+
+@keyframes fadeInContent {
+  to { opacity: 1; }
+}
+
+/* 7. EL MIXER MINIMALISTA (Glassmorphism) */
+.minimal-mixer {
+  background: rgba(0, 0, 0, 0.3);
+  backdrop-filter: blur(15px);
+  -webkit-backdrop-filter: blur(15px);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-radius: 30px;
+  padding: 2.5rem;
+  width: 100%;
+  max-width: 400px;
+  box-shadow: 0 25px 50px rgba(0,0,0,0.5);
+}
+
+.minimal-mixer h3 {
+  margin-bottom: 1.5rem;
+  font-weight: 300;
+  letter-spacing: 2px;
+  text-align: center;
+}
+
+/* 8. OVERLAY D'INICI */
+.start-overlay {
+  position: fixed;
+  inset: 0;
+  background: black;
+  z-index: 9999;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
+
+.btn-start {
+  padding: 1.2rem 3rem;
+  background: transparent;
+  color: white;
+  border: 1px solid white;
+  border-radius: 100px;
+  cursor: pointer;
+  letter-spacing: 4px;
+  transition: 0.4s;
+}
+
+.btn-start:hover {
+  background: white;
+  color: black;
 }
