@@ -52,8 +52,9 @@ const SoundMixer = ({ tracks }) => {
             ref={el => audioRefs.current[track] = el}
             src={`/assets/audio/${track}.mp3`}
             loop
-            autoPlay
-          />
+            autoPlay={activeId === currentEnvId}
+            preload="none"          
+            />
         </div>
       ))}
     </div>
