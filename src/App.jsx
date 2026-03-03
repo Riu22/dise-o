@@ -52,12 +52,14 @@ function App() {
                     <h1>{env.name}</h1>
                   </header>
                   
-                  <div className="minimal-mixer">
-                    <Visualizer isPlaying={true} volume={globalVolume} />
-                    <SoundMixer 
-                      tracks={env.sounds} 
-                    />
-                  </div>
+                 <div className="minimal-mixer">
+                  <Visualizer isPlaying={true} volume={globalVolume} />
+                  <SoundMixer 
+                    tracks={env.sounds} 
+                    activeId={activeId}
+                    currentEnvId={env.id}
+                  />
+                 </div>
                 </div>
               )}
             </div>

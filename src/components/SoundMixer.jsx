@@ -1,6 +1,6 @@
 import React, { useState, useEffect, useRef } from "react";
 
-const SoundMixer = ({ tracks }) => {
+const SoundMixer = ({ tracks, activeId, currentEnvId }) => { 
   const [volumes, setVolumes] = useState({});
   const audioRefs = useRef({});
 
@@ -54,7 +54,7 @@ const SoundMixer = ({ tracks }) => {
             loop
             autoPlay={activeId === currentEnvId}
             preload="none"          
-            />
+          />
         </div>
       ))}
     </div>
