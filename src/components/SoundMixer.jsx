@@ -1,20 +1,24 @@
-import React, {useState, useEffect, useRef} from "react";
+import React, { useState, useEffect, useRef } from "react";
 
-const SoundMixer = ({tracks}) => {
-    const [volumes, setVolumes] = useState({});
+const SoundMixer = ({ tracks }) => {
+  const [volumes, setVolumes] = useState({});
   const audioRefs = useRef({});
 
-    useEffect(() => {
-        const initialVolumes = {};
-        tracks.forEach(track => {
-            initialVolumes[track] = 0.5;
-        });
-        setVolumes(initialVolumes);
+  useEffect(() => {
+    const initialVolumes = {};
+    tracks.forEach(track => {
+      initialVolumes[track] = 0.5;
+      if (audioRefs.current[track]) {
+        audioRefs.current[track].volume = 0.5;
+      }
+    });
+    setVolumes(initialVolumes);
 
-        return () => {
+    return () => {
       Object.values(audioRefs.current).forEach(audio => audio?.pause());
     };
   }, [tracks]);
+
   const handleVolumeChange = (track, value) => {
     const volume = parseFloat(value);
     setVolumes(prev => ({ ...prev, [track]: volume }));
@@ -29,9 +33,10 @@ const SoundMixer = ({tracks}) => {
       {tracks.map((track) => (
         <div key={track} className="track-control">
           <div className="track-info">
-            {/* ICONA SVG segons el nom de la pista */}
-            <img src={`/assets/icons/${track}.svg`} alt={track} className="icon-small" />
-            <span>{track.charAt(0).toUpperCase() + track.slice(1)}</span>
+            {/* Icona eliminada totalment */}
+            <span className="track-name">
+              {track.replace('_', ' ').toUpperCase()}
+            </span>
           </div>
           
           <input

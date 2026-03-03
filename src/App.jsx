@@ -8,22 +8,19 @@ const ECOSYSTEMS = [
     id: 'forest',
     name: 'Tropical Forest',
     video: '/assets/video/forest.mp4',
-    sounds: ['birds', 'wind', 'river'],
-    icon: '🌳'
+    sounds: ['birds', 'wind', 'river']
   },
   {
     id: 'ocean',
     name: 'Deeper Ocean',
     video: '/assets/video/ocean.mp4',
-    sounds: ['waves', 'whales', 'bubbles'],
-    icon: '🌊'
+    sounds: ['waves', 'whales', 'bubbles']
   },
   {
     id: 'rain',
     name: 'Urban Rain',
     video: '/assets/video/rain.mp4',
-    sounds: ['heavy_rain', 'thunder', 'city_hum'],
-    icon: '☔'
+    sounds: ['heavy_rain', 'thunder', 'city_hum']
   }
 ];
 
@@ -47,7 +44,6 @@ function App() {
             <div className="section-content">
               {!activeId || activeId !== env.id ? (
                 <div className="section-closed">
-                  <span className="big-icon">{env.icon}</span>
                   <h2>{env.name}</h2>
                 </div>
               ) : (
@@ -60,7 +56,6 @@ function App() {
                     <Visualizer isPlaying={true} volume={globalVolume} />
                     <SoundMixer 
                       tracks={env.sounds} 
-                      onVolumeChange={setGlobalVolume} 
                     />
                   </div>
                 </div>
