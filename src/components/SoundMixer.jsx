@@ -33,7 +33,6 @@ const SoundMixer = ({ tracks }) => {
       {tracks.map((track) => (
         <div key={track} className="track-control">
           <div className="track-info">
-            {/* Icona eliminada totalment */}
             <span className="track-name">
               {track.replace('_', ' ').toUpperCase()}
             </span>
@@ -54,6 +53,7 @@ const SoundMixer = ({ tracks }) => {
             src={`/assets/audio/${track}.mp3`}
             loop
             autoPlay
+            preload="metadata"
           />
         </div>
       ))}
