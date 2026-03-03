@@ -53,7 +53,6 @@ const SoundMixer = ({ tracks }) => {
             src={`/assets/audio/${track}.mp3`}
             loop
             autoPlay
-            preload="metadata"
           />
         </div>
       ))}

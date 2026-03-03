@@ -37,7 +37,7 @@ function App() {
             className={`env-section ${activeId === env.id ? 'active' : ''}`}
             onClick={() => setActiveId(env.id)}
           >
-            <video autoPlay loop muted playsInline preload="auto" className="section-video">
+            <video autoPlay loop muted playsInline className="section-video">
               <source src={env.video} type="video/mp4" />
             </video>
 
